@@ -1,0 +1,49 @@
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="/">
+      <img class="brand__logo" src="/assets/logo.png" alt="Simulations logo" width="32" height="32">
+      <span>Simulations</span>
+    </a>
+
+    <button class="hamburger" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-nav">
+      <span class="hamburger__bar"></span>
+      <span class="hamburger__bar"></span>
+      <span class="hamburger__bar"></span>
+    </button>
+
+    <nav class="site-nav" id="primary-nav" aria-label="Primary">
+      <ul class="site-nav__list">
+        <li><a href="/">Home</a></li>
+        <li class="has-dropdown">
+          <button class="nav-trigger" type="button" aria-expanded="false">
+            <span>Algorithms</span>
+            <span class="nav-arrow" aria-hidden="true">&#9662;</span>
+          </button>
+          <ul class="nav-dropdown">
+            <li><a href="/topics/bubble-sort.html">Bubble Sort</a></li>
+            <li><a href="/topics/insertion-sort.html">Insertion Sort</a></li>
+            <li><a href="/topics/selection-sort.html">Selection Sort</a></li>
+            <li><a href="/topics/binary-sort.html">Binary Sort</a></li>
+            <li><a href="/topics/cpu-scheduling.html">CPU Scheduling</a></li>
+            <li><a href="/topics/dijkstra.html">Dijkstra Shortest Path</a></li>
+          </ul>
+        </li>
+        <li class="has-dropdown">
+          <button class="nav-trigger" type="button" aria-expanded="false">
+            <span>Protocols</span>
+            <span class="nav-arrow" aria-hidden="true">&#9662;</span>
+          </button>
+          <ul class="nav-dropdown">
+            <li><a href="/topics/goback-n.html">Go-Back-N</a></li>
+            <li><a href="/topics/selective-repeat.html">Selective Repeat</a></li>
+            <li><a href="/topics/tcp-handshake.html">TCP 3-Way Handshake</a></li>
+          </ul>
+        </li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <button class="theme-toggle" type="button" aria-label="Switch between dark and light theme">&#9680;</button>
+  </div>
+</header>
