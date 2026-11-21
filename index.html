@@ -1,0 +1,145 @@
+<!-- NOTE: paths are root-relative; for local preview use a local server (e.g. VS Code Live Server) so /css, /js, /assets resolve correctly. -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Interactive CS &amp; Networking Protocol Simulations — Simulations</title>
+  <meta name="description" content="Interactive simulations and step-by-step walkthroughs of sorting algorithms, scheduling, graphs, and networking protocols.">
+  <link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Simulations">
+  <meta property="og:title" content="Interactive CS &amp; Networking Protocol Simulations — Simulations">
+  <meta property="og:description" content="Interactive simulations and step-by-step walkthroughs of sorting algorithms, scheduling, graphs, and networking protocols.">
+  <meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/">
+  <meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Interactive CS &amp; Networking Protocol Simulations — Simulations">
+  <meta name="twitter:description" content="Interactive simulations and step-by-step walkthroughs of sorting algorithms, scheduling, graphs, and networking protocols.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Simulations",
+    "description": "Interactive simulations and step-by-step walkthroughs of sorting algorithms, scheduling, graphs, and networking protocols.",
+    "publisher": { "@type": "Organization", "name": "Simulations" },
+    "url": "https://stimulaions.masoodulhassanai.workers.dev/"
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/pages/home.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- 1. HEADER PLACEHOLDER (JS will inject components/header.html here) -->
+  <div id="header-placeholder"></div>
+
+  <main id="main">
+    <!-- ===== HERO SLIDER ===== -->
+    <section class="hero" aria-label="Welcome">
+      <div class="hero__slides">
+        <img src="https://picsum.photos/id/180/1600/900" alt="Laptop on a desk with code on the screen" width="1600" height="900">
+        <img src="https://picsum.photos/id/0/1600/900" alt="Laptop and notebook on a wooden desk" width="1600" height="900" loading="lazy">
+        <img src="https://picsum.photos/id/60/1600/900" alt="Workspace with a monitor and coffee" width="1600" height="900" loading="lazy">
+        <img src="https://picsum.photos/id/119/1600/900" alt="Close-up of a keyboard in soft light" width="1600" height="900" loading="lazy">
+      </div>
+      <div class="hero__overlay"></div>
+      <div class="container hero__content">
+        <h1>See how networks really work</h1>
+        <p class="lead">Interactive simulations and plain-language walkthroughs of networking protocols and core computer science ideas, one step at a time.</p>
+        <div class="btn--row">
+          <a class="btn btn--primary" href="/networking/goback-n">Try Go-Back-N</a>
+          <a class="btn btn--ghost" href="/networking/selective-repeat">Try Selective Repeat</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- AD SLOT: Top Banner -->
+      <div class="ad-slot ad-slot--banner" aria-label="Advertisement">
+        <!-- REPLACE: AdSense banner code here -->
+      </div>
+
+      <section class="section fade-in">
+        <h2>Learn by watching it happen</h2>
+        <p>Textbook diagrams freeze a protocol at a single moment. Real protocols are about timing: packets travel, get lost, arrive out of order, and trigger timeouts. Simulations lets you slow that down, pause it, break it on purpose, and read a plain-English log of every decision each side makes.</p>
+        <p>Every topic pairs a hands-on simulation with a short written explanation. You can run the demo first and read afterwards, or read first and test your understanding by dropping a packet or blocking a path and predicting what happens next.</p>
+      </section>
+
+      <section class="section fade-in">
+        <h2>Featured topics</h2>
+        <div class="grid grid--3">
+          <a class="card" href="/networking/goback-n">
+            <h3 class="card__title">Go-Back-N</h3>
+            <p class="card__text">A sliding window protocol where one loss forces the sender to resend the whole window.</p>
+          </a>
+          <a class="card" href="/networking/selective-repeat">
+            <h3 class="card__title">Selective Repeat</h3>
+            <p class="card__text">Individual acknowledgements and receiver buffering mean only lost packets are resent.</p>
+          </a>
+          <div class="card">
+            <h3 class="card__title">OSI Model</h3>
+            <p class="card__text">The seven layers of networking, and what each one is responsible for.</p>
+            <span class="tag">Coming soon</span>
+          </div>
+          <div class="card">
+            <h3 class="card__title">TCP Handshake</h3>
+            <p class="card__text">How two hosts agree to talk: SYN, SYN-ACK, ACK, and why three steps.</p>
+            <span class="tag">Coming soon</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- AD SLOT: Mid-Article -->
+      <div class="ad-slot" aria-label="Advertisement">
+        <!-- REPLACE: AdSense mid-article code here -->
+      </div>
+
+      <section class="section fade-in">
+        <h2>What you will learn</h2>
+        <div class="grid grid--2">
+          <div class="card">
+            <h3 class="card__title">Reliable delivery</h3>
+            <p class="card__text">How acknowledgements, timers, and retransmissions turn an unreliable link into a dependable one.</p>
+          </div>
+          <div class="card">
+            <h3 class="card__title">Flow control</h3>
+            <p class="card__text">How windows keep a fast sender from overwhelming a slow receiver.</p>
+          </div>
+          <div class="card">
+            <h3 class="card__title">Trade-offs</h3>
+            <p class="card__text">Why simple protocols waste bandwidth and how smarter ones spend memory to save it.</p>
+          </div>
+          <div class="card">
+            <h3 class="card__title">Thinking like a protocol</h3>
+            <p class="card__text">Reading a log of events and predicting the next state—the core skill behind debugging networks and algorithms.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- AD SLOT: Bottom -->
+      <div class="ad-slot" aria-label="Advertisement">
+        <!-- REPLACE: AdSense bottom code here -->
+      </div>
+    </div>
+  </main>
+
+  <!-- 2. FOOTER PLACEHOLDER (JS will inject components/footer.html here) -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ===== JS ===== -->
+  <script src="/js/main.js" defer></script>
+  <script src="/js/pages/home.js" defer></script>
+</body>
+</html>
