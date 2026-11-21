@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Go-Back-N Protocol Simulation: Sliding Window ARQ — Simulations</title>
+<meta name="description" content="Run an interactive Go-Back-N simulation. Watch the sliding window, destroy packets and ACKs, and see why one loss makes the sender resend the whole window.">
+<link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/topics/goback-n">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Simulations">
+<meta property="og:title" content="Go-Back-N Protocol Simulation: Sliding Window ARQ — Simulations">
+<meta property="og:description" content="Run an interactive Go-Back-N simulation. Watch the sliding window, destroy packets and ACKs, and see why one loss makes the sender resend the whole window.">
+<meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/topics/goback-n">
+<meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go-Back-N Protocol Simulation: Sliding Window ARQ — Simulations">
+<meta name="twitter:description" content="Run an interactive Go-Back-N simulation. Watch the sliding window, destroy packets and ACKs, and see why one loss makes the sender resend the whole window.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Go-Back-N Protocol Simulation", "description": "Run an interactive Go-Back-N simulation. Watch the sliding window, destroy packets and ACKs, and see why one loss makes the sender resend the whole window.", "author": {"@type": "Organization", "name": "Simulations"}, "datePublished": "2026-11-21", "url": "https://simulations.pages.dev/topics/goback-n"}</script>
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/pages/goback-n.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+<main id="main">
+<div class="container">
+<div class="page-head"><h1>Go-Back-N Protocol Simulation</h1><p class="lead">Go-Back-N is a sliding window protocol that keeps the link busy by sending several packets before waiting for acknowledgements. Break it on purpose below to see how it recovers.</p></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="sim" id="sim" aria-labelledby="sim-title">
+  <h2 id="sim-title">Interactive simulation</h2>
+  <dl class="readouts">
+    <div><dt>base</dt><dd id="ro-base">0</dd></div>
+    <div><dt>next_seq</dt><dd id="ro-next">0</dd></div>
+    <div><dt>expected_seq</dt><dd id="ro-rcv">0</dd></div>
+    <div><dt>Timer</dt><dd id="ro-timer">idle</dd></div>
+    <div><dt>Speed</dt><dd id="ro-speed">1x</dd></div>
+  </dl>
+  <div class="controls" role="group" aria-label="Simulation controls">
+    <button class="btn btn-primary" type="button" id="b-send">Send</button>
+    <button class="btn" type="button" id="b-pause">Pause</button>
+    <button class="btn" type="button" id="b-resume">Resume</button>
+    <button class="btn" type="button" id="b-step">Step</button>
+    <button class="btn" type="button" id="b-slower">Slower</button>
+    <button class="btn" type="button" id="b-faster">Faster</button>
+    <button class="btn btn-danger" type="button" id="b-kill">Kill Selected</button>
+    <button class="btn" type="button" id="b-reset">Reset</button>
+  </div>
+  <div class="board">
+    <h3>Sender (window of 5)</h3>
+    <div class="track"><div class="frame" id="sender-frame" aria-hidden="true"></div><div class="slots" id="sender-slots" aria-label="Sender packets 0 to 14"></div></div>
+    <div class="channel" id="channel" aria-label="Network channel: packets travel down, acknowledgements travel up"></div>
+    <h3>Receiver (window of 1 packet (in order only))</h3>
+    <div class="track"><div class="frame" id="receiver-frame" aria-hidden="true"></div><div class="slots" id="receiver-slots" aria-label="Receiver packets 0 to 14"></div></div>
+  </div>
+  <h3>Legend</h3>
+  <ul class="legend">
+    <li><span class="sw ready"></span>Inside window, ready</li>
+    <li><span class="sw sent"></span>Sent, waiting for ACK</li>
+    <li><span class="sw retx"></span>Retransmitted</li>
+    <li><span class="sw acked"></span>Acknowledged / delivered</li>
+    <li><span class="sw sent"></span>Packet in transit (click to select)</li>
+    <li><span class="sw ackpkt"></span>ACK in transit (click to select)</li>
+    <li><span class="sw selected"></span>Selected (press Kill Selected)</li>
+    <li><span class="sw lost"></span>Destroyed in transit</li>
+  </ul>
+  <h3 id="log-title">Event log</h3>
+  <ul class="log" id="event-log" role="log" aria-live="polite" aria-labelledby="log-title"></ul>
+</section>
+<section class="fade-in prose"><h2>How to use this simulation</h2><ol><li>Press <strong>Send</strong>. The sender transmits up to 5 packets without waiting. Blue packets travel down; green ACKs travel up.</li><li>Click a packet or press <strong>Kill Packet</strong> while it is in transit. Watch the receiver discard everything after the gap.</li><li>Wait for the timer. When it reaches zero the sender <em>goes back</em> and resends every unacknowledged packet, shown in purple.</li><li>Use <strong>Step</strong> to jump to the next event, <strong>Slower</strong> and <strong>Faster</strong> to change speed, and <strong>Reset</strong> to start again.</li></ol></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<div class="prose steps">
+<section class="fade-in"><h2>1. The sender fills its window</h2><p>The sender may have at most N packets outstanding. Here N is 5. The outlined frame over the sender row is the window: it starts at base, the oldest unacknowledged packet, and extends N slots to the right. next_seq is the next packet that will be sent.</p></section>
+<section class="fade-in"><h2>2. The receiver accepts only the packet it expects</h2><p>The receiver keeps one number, expected_seq. A packet with that number is delivered and expected_seq moves up. Any other packet is discarded, because the receiver has no buffer for out-of-order data. That keeps the receiver tiny and simple.</p></section>
+<section class="fade-in"><h2>3. Cumulative ACKs slide the window</h2><p>Each ACK n means every packet up to n arrived in order. When the sender receives it, base jumps to n+1 and the window slides forward, making room for new packets. A lost ACK is often harmless because a later ACK covers it.</p></section>
+<section class="fade-in"><h2>4. A timeout sends everything again</h2><p>The sender runs one timer for the oldest unacknowledged packet. If it expires, the sender goes back to base and retransmits every packet in the window, including ones that may have arrived safely. This is simple, but wasteful when losses are frequent or the window is large.</p></section>
+<section class="fade-in"><h2>5. Why use it?</h2><p>Compared with stop-and-wait, Go-Back-N keeps the pipe full and raises throughput. Compared with Selective Repeat it needs far less receiver memory and logic, which is why the idea appears in real protocols.</p></section>
+</div>
+<section class="fade-in prose"><h2>Key takeaways</h2><ul><li>The sender window is N; the receiver window is 1.</li><li>ACKs are cumulative: ACK n confirms all packets up to n.</li><li>One lost packet makes the receiver discard all later packets until the missing one is retransmitted.</li><li>A single timer covers the oldest unacknowledged packet, and expiry resends the whole window.</li><li>Simple receivers cost extra bandwidth when errors are common.</li></ul></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="fade-in"><h2>Related topics</h2><div class="grid">
+<a class="card" href="/topics/selective-repeat"><h3>Selective Repeat</h3><p>Resend only what was actually lost.</p></a>
+<div class="card"><h3>Stop-and-Wait</h3><p>The simplest ARQ: one packet at a time.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>Sliding Window</h3><p>The general idea behind flow control.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>TCP Handshake</h3><p>How a reliable connection starts.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>ARQ Protocols</h3><p>Automatic repeat request, compared.</p><span class="badge">Coming soon</span></div>
+</div></section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">Simulations</p>
+    <p>Learn protocols and CS concepts, step by step.</p>
+    <ul>
+      <li><a href="/topics/goback-n">Go-Back-N</a></li>
+      <li><a href="/topics/selective-repeat">Selective Repeat</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+    <p>&copy; <span id="year">2026</span> Simulations. All rights reserved.</p>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script src="/js/pages/goback-n.js" defer></script>
+</body>
+</html>

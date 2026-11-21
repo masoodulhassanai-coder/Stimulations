@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Selection Sort Simulation &amp; Walkthrough — Simulations</title>
+  <meta name="description" content="Watch Selection Sort scan for the minimum element in each pass and swap it into place with clear index tracking.">
+  <link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/topics/selection-sort">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Simulations">
+  <meta property="og:title" content="Selection Sort Simulation &amp; Walkthrough — Simulations">
+  <meta property="og:description" content="Watch Selection Sort scan for the minimum element in each pass and swap it into place with clear index tracking.">
+  <meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/topics/selection-sort">
+  <meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Selection Sort Simulation &amp; Walkthrough — Simulations">
+  <meta name="twitter:description" content="Watch Selection Sort scan for the minimum element in each pass and swap it into place with clear index tracking.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Selection Sort Simulation & Walkthrough",
+    "description": "Watch Selection Sort scan for the minimum element in each pass and swap it into place with clear index tracking.",
+    "learningResourceType": "Interactive Simulation",
+    "provider": { "@type": "Organization", "name": "Simulations" },
+    "url": "https://stimulaions.masoodulhassanai.workers.dev/topics/selection-sort"
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/pages/selection-sort.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+<main id="main">
+<div class="container">
+<div class="page-head"><h1>Selection Sort Simulation</h1><p class="lead">Selection Sort scans the unsorted portion of the array for the minimum element on each pass and swaps it into the next sorted position at the front.</p></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="sim" id="sim" aria-labelledby="sim-title">
+  <h2 id="sim-title">Interactive simulation</h2>
+  <dl class="readouts">
+    <div><dt>Pass</dt><dd id="ro-pass">1</dd></div>
+    <div><dt>Current min</dt><dd id="ro-min">-</dd></div>
+    <div><dt>Swaps</dt><dd id="ro-swaps">0</dd></div>
+    <div><dt>Sorted front</dt><dd id="ro-sorted">0 / 10</dd></div>
+    <div><dt>Speed</dt><dd id="ro-speed">1x</dd></div>
+  </dl>
+  <div class="controls" role="group" aria-label="Simulation controls">
+    <button class="btn btn-primary" type="button" id="b-send">Select Next</button>
+    <button class="btn" type="button" id="b-pause">Pause</button>
+    <button class="btn" type="button" id="b-resume">Resume</button>
+    <button class="btn" type="button" id="b-step">Step</button>
+    <button class="btn" type="button" id="b-slower">Slower</button>
+    <button class="btn" type="button" id="b-faster">Faster</button>
+    <button class="btn" type="button" id="b-reset">Reset</button>
+  </div>
+  <div class="board">
+    <div class="bars-stage" id="bars-stage" aria-label="Animated bar chart for Selection Sort"></div>
+    <div class="status-line" id="status-line">Ready: press Select Next or Resume to start</div>
+  </div>
+  <h3>Legend</h3>
+  <ul class="legend">
+    <li><span class="sw unsort"></span>Unsorted element</li>
+    <li><span class="sw scan"></span>Scanning candidate</li>
+    <li><span class="sw minval"></span>Minimum found so far</li>
+    <li><span class="sw done"></span>Sorted in final position</li>
+  </ul>
+  <h3 id="log-title">Event log</h3>
+  <ul class="log" id="event-log" role="log" aria-live="polite" aria-labelledby="log-title"></ul>
+</section>
+<section class="fade-in prose"><h2>How to use this simulation</h2><ol><li>Press <strong>Select Next</strong> once to step through one scan/swap event, or press <strong>Resume</strong> to animate continuously.</li><li>Watch how the current minimum candidate is tracked and swapped into index <code>i</code> at the end of each scan.</li><li>Use <strong>Step</strong>, <strong>Slower</strong> (down to 0.25x), <strong>Faster</strong> (up to 4x), and <strong>Reset</strong> to run with new values.</li></ol></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<div class="prose steps">
+<section class="fade-in"><h2>1. Scanning for the minimum</h2><p>Starting at position <code>i</code>, Selection Sort sets <code>minIdx = i</code> and scans remaining indices <code>j = i + 1 .. n - 1</code> to find the smallest value.</p></section>
+<section class="fade-in"><h2>2. Swapping into position</h2><p>Once the scan finishes, it swaps <code>arr[i]</code> with <code>arr[minIdx]</code> and advances <code>i</code>, locking another sorted element at the front.</p></section>
+<section class="fade-in"><h2>3. Time &amp; space complexity</h2><p>Selection Sort always performs <code>O(n²)</code> comparisons regardless of input order, uses <code>O(1)</code> extra memory, and performs at most <code>n - 1</code> swaps.</p></section>
+</div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="fade-in"><h2>Related topics</h2><div class="grid">
+<a class="card" href="/topics/bubble-sort"><h3>Bubble Sort</h3><p>Repeatedly swap adjacent out-of-order elements.</p></a>
+<a class="card" href="/topics/insertion-sort"><h3>Insertion Sort</h3><p>Insert each element into a growing sorted prefix.</p></a>
+<a class="card" href="/topics/goback-n"><h3>Go-Back-N</h3><p>Sliding window ARQ protocol simulation.</p></a>
+</div></section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">Simulations</p>
+    <p>Learn protocols and CS concepts, step by step.</p>
+    <ul>
+      <li><a href="/topics/goback-n">Go-Back-N</a></li>
+      <li><a href="/topics/selective-repeat">Selective Repeat</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+    <p>&copy; <span id="year">2026</span> Simulations. All rights reserved.</p>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script src="/js/pages/selection-sort.js" defer></script>
+</body>
+</html>

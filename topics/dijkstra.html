@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Dijkstra Shortest Path Simulation — Simulations</title>
+  <meta name="description" content="Trace shortest-path distance updates, visited nodes, and edge relaxations interactively on a weighted graph.">
+  <link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/topics/dijkstra">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Simulations">
+  <meta property="og:title" content="Dijkstra Shortest Path Simulation — Simulations">
+  <meta property="og:description" content="Trace shortest-path distance updates, visited nodes, and edge relaxations interactively on a weighted graph.">
+  <meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/topics/dijkstra">
+  <meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Dijkstra Shortest Path Simulation — Simulations">
+  <meta name="twitter:description" content="Trace shortest-path distance updates, visited nodes, and edge relaxations interactively on a weighted graph.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Dijkstra Shortest Path Simulation",
+    "description": "Trace shortest-path distance updates, visited nodes, and edge relaxations interactively on a weighted graph.",
+    "learningResourceType": "Interactive Simulation",
+    "provider": { "@type": "Organization", "name": "Simulations" },
+    "url": "https://stimulaions.masoodulhassanai.workers.dev/topics/dijkstra"
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/pages/dijkstra.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+<main id="main">
+<div class="container">
+<div class="page-head"><h1>Dijkstra Shortest Path Simulation</h1><p class="lead">Dijkstra's algorithm finds minimum-cost paths from a source node in weighted graphs with non-negative edge costs by greedily expanding the closest unvisited node and relaxing neighbor edges.</p></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="sim" id="sim" aria-labelledby="sim-title">
+  <h2 id="sim-title">Interactive simulation</h2>
+  <div class="algo-bar" role="group" aria-label="Source node selection">
+    <label class="field">
+      <span>Source Node</span>
+      <select id="sel-source">
+        <option value="A" selected>A (Start)</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+      </select>
+    </label>
+  </div>
+  <dl class="readouts">
+    <div><dt>Current node</dt><dd id="ro-cur">-</dd></div>
+    <div><dt>Visited</dt><dd id="ro-vis">0 / 6</dd></div>
+    <div><dt>Max cost (F)</dt><dd id="ro-cost">0</dd></div>
+    <div><dt>Selected edge</dt><dd id="ro-edge">none</dd></div>
+    <div><dt>Speed</dt><dd id="ro-speed">1x</dd></div>
+  </dl>
+  <div class="controls" role="group" aria-label="Simulation controls">
+    <button class="btn btn-primary" type="button" id="b-send">Relax Next</button>
+    <button class="btn" type="button" id="b-pause">Pause</button>
+    <button class="btn" type="button" id="b-resume">Resume</button>
+    <button class="btn" type="button" id="b-step">Step</button>
+    <button class="btn" type="button" id="b-slower">Slower</button>
+    <button class="btn" type="button" id="b-faster">Faster</button>
+    <button class="btn btn-danger" type="button" id="b-kill">Block Edge</button>
+    <button class="btn" type="button" id="b-reset">Reset</button>
+  </div>
+
+  <div class="board">
+    <div class="graph-wrap">
+      <svg class="graph-svg" id="graph-svg" viewBox="0 0 640 290" role="img" aria-label="Weighted graph with nodes A through F">
+        <g id="edge-layer"></g>
+        <g id="pulse-layer"></g>
+        <g id="node-layer"></g>
+      </svg>
+    </div>
+    <div class="dist-strip" id="dist-strip" aria-label="Shortest distance cards per node"></div>
+  </div>
+
+  <h3>Legend</h3>
+  <ul class="legend">
+    <li><span class="sw unvisited"></span>Unvisited (&infin; initially)</li>
+    <li><span class="sw frontier"></span>Discovered / Frontier</li>
+    <li><span class="sw current"></span>Active node being expanded</li>
+    <li><span class="sw visited"></span>Finalized shortest path</li>
+    <li><span class="sw selected"></span>Selected edge (click Block Edge)</li>
+    <li><span class="sw blocked"></span>Blocked link</li>
+  </ul>
+  <h3 id="log-title">Event log</h3>
+  <ul class="log" id="event-log" role="log" aria-live="polite" aria-labelledby="log-title"></ul>
+</section>
+<section class="fade-in prose"><h2>How to use this simulation</h2><ol><li>Press <strong>Relax Next</strong> once to step through one edge relaxation at a time, or press <strong>Resume</strong> to animate continuously from the chosen <strong>Source Node</strong>.</li><li>Click any edge line in the graph to <strong>select</strong> it, then press <strong>Block Edge</strong> to cut that link and watch shortest paths reroute.</li><li>Use <strong>Step</strong> to advance one event, <strong>Slower</strong> (down to 0.25x) and <strong>Faster</strong> (up to 4x) to control animation speed, and <strong>Reset</strong> to restore all edges.</li></ol></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<div class="prose steps">
+<section class="fade-in"><h2>1. Greedy selection of the closest unvisited node</h2><p>At each step, Dijkstra picks the unvisited node with the smallest tentative distance from the source. Because all edge weights are non-negative, once a node is chosen as the minimum among unvisited nodes, no shorter path to it can arrive later.</p></section>
+<section class="fade-in"><h2>2. Edge relaxation</h2><p>When expanding node <code>u</code> with cost <code>dist[u]</code>, the algorithm checks each outgoing edge <code>(u, v)</code> of weight <code>w</code>. If <code>dist[u] + w &lt; dist[v]</code>, it updates <code>dist[v] = dist[u] + w</code> and records <code>u</code> as <code>v</code>'s predecessor along the shortest tree.</p></section>
+<section class="fade-in"><h2>3. Why non-negative weights are required</h2><p>Dijkstra assumes adding another edge never decreases total path cost. If a graph has negative edge weights, an already-finalized node could later see a lower cost, requiring Bellman-Ford instead.</p></section>
+</div>
+<section class="fade-in"><h2>Algorithm properties</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col">Aspect</th><th scope="col">Detail</th><th scope="col">Why It Matters</th></tr></thead><tbody>
+<tr><th scope="row">Edge weight rule</th><td>Non-negative weights (<code>w &ge; 0</code>)</td><td>Preserves greedy optimality once a node is finalized</td></tr>
+<tr><th scope="row">Relaxation condition</th><td><code>dist[u] + w &lt; dist[v]</code></td><td>Updates neighbor cost only when a cheaper route is found</td></tr>
+<tr><th scope="row">Time complexity</th><td><code>O((V + E) log V)</code> with min-heap</td><td>Scales cleanly to sparse and dense graphs</td></tr>
+</tbody></table></div></section>
+<section class="fade-in prose"><h2>Key takeaways</h2><ul><li>Always expand the unvisited node with the smallest current distance from the source.</li><li>Relaxing an edge tests whether going through the current node improves a neighbor's cost.</li><li>Blocking an edge forces remaining paths to use alternative routes or increases path cost.</li></ul></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="fade-in"><h2>Related topics</h2><div class="grid">
+<a class="card" href="/topics/goback-n"><h3>Go-Back-N</h3><p>Sliding window ARQ with cumulative ACKs.</p></a>
+<a class="card" href="/topics/selective-repeat"><h3>Selective Repeat</h3><p>Sliding window ARQ with individual ACKs and buffering.</p></a>
+<div class="card"><h3>Bellman-Ford</h3><p>Shortest paths with negative edge weights.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>A* Search</h3><p>Heuristic-guided shortest path search.</p><span class="badge">Coming soon</span></div>
+</div></section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">Simulations</p>
+    <p>Learn protocols and CS concepts, step by step.</p>
+    <ul>
+      <li><a href="/topics/goback-n">Go-Back-N</a></li>
+      <li><a href="/topics/selective-repeat">Selective Repeat</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+    <p>&copy; <span id="year">2026</span> Simulations. All rights reserved.</p>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script src="/js/pages/dijkstra.js" defer></script>
+</body>
+</html>

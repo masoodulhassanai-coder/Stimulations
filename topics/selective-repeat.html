@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selective Repeat Protocol Simulation: ARQ Explained — Simulations</title>
+<meta name="description" content="Try an interactive Selective Repeat simulation. See individual ACKs, receiver buffering and why only the lost packet is retransmitted, plus a GBN comparison.">
+<link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/topics/selective-repeat">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Simulations">
+<meta property="og:title" content="Selective Repeat Protocol Simulation: ARQ Explained — Simulations">
+<meta property="og:description" content="Try an interactive Selective Repeat simulation. See individual ACKs, receiver buffering and why only the lost packet is retransmitted, plus a GBN comparison.">
+<meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/topics/selective-repeat">
+<meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Selective Repeat Protocol Simulation: ARQ Explained — Simulations">
+<meta name="twitter:description" content="Try an interactive Selective Repeat simulation. See individual ACKs, receiver buffering and why only the lost packet is retransmitted, plus a GBN comparison.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Selective Repeat Protocol Simulation", "description": "Try an interactive Selective Repeat simulation. See individual ACKs, receiver buffering and why only the lost packet is retransmitted, plus a GBN comparison.", "author": {"@type": "Organization", "name": "Simulations"}, "datePublished": "2026-11-21", "url": "https://simulations.pages.dev/topics/selective-repeat"}</script>
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/pages/selective-repeat.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+<main id="main">
+<div class="container">
+<div class="page-head"><h1>Selective Repeat Protocol Simulation</h1><p class="lead">Selective Repeat uses a receiver window so out-of-order packets are kept, not thrown away. Only the packet that was truly lost needs to be sent again.</p></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="sim" id="sim" aria-labelledby="sim-title">
+  <h2 id="sim-title">Interactive simulation</h2>
+  <dl class="readouts">
+    <div><dt>base</dt><dd id="ro-base">0</dd></div>
+    <div><dt>next_seq</dt><dd id="ro-next">0</dd></div>
+    <div><dt>rcv_base</dt><dd id="ro-rcv">0</dd></div>
+    <div><dt>Timer</dt><dd id="ro-timer">idle</dd></div>
+    <div><dt>Speed</dt><dd id="ro-speed">1x</dd></div>
+  </dl>
+  <div class="controls" role="group" aria-label="Simulation controls">
+    <button class="btn btn-primary" type="button" id="b-send">Send</button>
+    <button class="btn" type="button" id="b-pause">Pause</button>
+    <button class="btn" type="button" id="b-resume">Resume</button>
+    <button class="btn" type="button" id="b-step">Step</button>
+    <button class="btn" type="button" id="b-slower">Slower</button>
+    <button class="btn" type="button" id="b-faster">Faster</button>
+    <button class="btn btn-danger" type="button" id="b-kill">Kill Selected</button>
+    <button class="btn" type="button" id="b-reset">Reset</button>
+  </div>
+  <div class="board">
+    <h3>Sender (window of 4)</h3>
+    <div class="track"><div class="frame" id="sender-frame" aria-hidden="true"></div><div class="slots" id="sender-slots" aria-label="Sender packets 0 to 14"></div></div>
+    <div class="channel" id="channel" aria-label="Network channel: packets travel down, acknowledgements travel up"></div>
+    <h3>Receiver (window of 4 packets (buffers out-of-order))</h3>
+    <div class="track"><div class="frame" id="receiver-frame" aria-hidden="true"></div><div class="slots" id="receiver-slots" aria-label="Receiver packets 0 to 14"></div></div>
+  </div>
+  <h3>Legend</h3>
+  <ul class="legend">
+    <li><span class="sw ready"></span>Inside window, ready</li>
+    <li><span class="sw sent"></span>Sent, waiting for ACK</li>
+    <li><span class="sw retx"></span>Retransmitted</li>
+    <li><span class="sw acked"></span>Acknowledged / delivered</li>
+    <li><span class="sw buffer"></span>Buffered out of order (receiver)</li>
+    <li><span class="sw sent"></span>Packet in transit (click to select)</li>
+    <li><span class="sw ackpkt"></span>ACK in transit (click to select)</li>
+    <li><span class="sw selected"></span>Selected (press Kill Selected)</li>
+    <li><span class="sw lost"></span>Destroyed in transit</li>
+  </ul>
+  <h3 id="log-title">Event log</h3>
+  <ul class="log" id="event-log" role="log" aria-live="polite" aria-labelledby="log-title"></ul>
+</section>
+<section class="fade-in prose"><h2>How to use this simulation</h2><ol><li>Press <strong>Send</strong>. The sender transmits up to 4 packets. Each one is acknowledged individually.</li><li>Click a packet in transit or press <strong>Kill Packet</strong>. Notice later packets still arrive and turn indigo: they are buffered, not discarded.</li><li>When the timer for the lost packet expires, only that packet is resent. Once it arrives, the receiver delivers the whole buffered run and both windows slide.</li><li>Use <strong>Step</strong>, <strong>Slower</strong>, <strong>Faster</strong> and <strong>Reset</strong> to explore at your own pace. Try killing an ACK too.</li></ol></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<div class="prose steps">
+<section class="fade-in"><h2>1. Both sides have a window</h2><p>The sender window works as in Go-Back-N. The receiver also has a window, starting at rcv_base, which is the lowest packet it has not yet delivered. Here both windows hold 4 packets.</p></section>
+<section class="fade-in"><h2>2. Packets are acknowledged one by one</h2><p>When a packet lands inside the receiver window, the receiver acknowledges that specific packet. If the packet is already delivered it is acknowledged again, because the earlier ACK may have been lost.</p></section>
+<section class="fade-in"><h2>3. Out-of-order packets are buffered</h2><p>If packet 2 is missing but 3 and 4 arrive, the receiver stores 3 and 4. They are not delivered to the application until the gap is filled, so data still arrives in order.</p></section>
+<section class="fade-in"><h2>4. Each packet has its own timer</h2><p>On timeout, the sender retransmits just that packet. When it arrives, the receiver delivers it together with everything buffered behind it, and rcv_base jumps forward.</p></section>
+<section class="fade-in"><h2>5. The cost of efficiency</h2><p>Selective Repeat wastes less bandwidth but needs receiver buffer memory, per-packet timers and a sequence number space at least twice the window size, so old and new packets cannot be confused.</p></section>
+</div>
+<section class="fade-in"><h2>Go-Back-N vs Selective Repeat</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col">Feature</th><th scope="col">Go-Back-N</th><th scope="col">Selective Repeat</th></tr></thead><tbody>
+<tr><th scope="row">Receiver window</th><td>1 packet</td><td>Same size as sender window</td></tr>
+<tr><th scope="row">Out-of-order packets</th><td>Discarded</td><td>Buffered</td></tr>
+<tr><th scope="row">Acknowledgements</th><td>Cumulative</td><td>Individual</td></tr>
+<tr><th scope="row">On a loss</th><td>Resend the whole window</td><td>Resend only the lost packet</td></tr>
+<tr><th scope="row">Timers</th><td>One</td><td>One per packet</td></tr>
+<tr><th scope="row">Receiver complexity</th><td>Low</td><td>Higher (buffer and reordering)</td></tr>
+</tbody></table></div></section>
+<section class="fade-in prose"><h2>Key takeaways</h2><ul><li>Receiver window equals sender window, so out-of-order packets are buffered.</li><li>Every packet gets its own ACK and its own timer.</li><li>Only lost or unacknowledged packets are retransmitted.</li><li>Data is still delivered to the application in order.</li><li>It trades extra memory and complexity for better efficiency on lossy links.</li></ul></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="fade-in"><h2>Related topics</h2><div class="grid">
+<a class="card" href="/topics/goback-n"><h3>Go-Back-N</h3><p>Simpler receiver, bigger retransmissions.</p></a>
+<div class="card"><h3>Stop-and-Wait</h3><p>The simplest ARQ: one packet at a time.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>Sliding Window</h3><p>The general idea behind flow control.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>TCP Handshake</h3><p>How a reliable connection starts.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>ARQ Protocols</h3><p>Automatic repeat request, compared.</p><span class="badge">Coming soon</span></div>
+</div></section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">Simulations</p>
+    <p>Learn protocols and CS concepts, step by step.</p>
+    <ul>
+      <li><a href="/topics/goback-n">Go-Back-N</a></li>
+      <li><a href="/topics/selective-repeat">Selective Repeat</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+    <p>&copy; <span id="year">2026</span> Simulations. All rights reserved.</p>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script src="/js/pages/selective-repeat.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TCP 3-Way Handshake Simulation: SYN, SYN-ACK &amp; ACK — Simulations</title>
+<meta name="description" content="Run an interactive TCP 3-way handshake simulation. Watch SYN, SYN-ACK, and ACK exchange, drop segments in transit, and see how sequence numbers and states transition.">
+<link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/topics/tcp-handshake">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Simulations">
+<meta property="og:title" content="TCP 3-Way Handshake Simulation: SYN, SYN-ACK &amp; ACK — Simulations">
+<meta property="og:description" content="Run an interactive TCP 3-way handshake simulation. Watch SYN, SYN-ACK, and ACK exchange, drop segments in transit, and see how sequence numbers and states transition.">
+<meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/topics/tcp-handshake">
+<meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TCP 3-Way Handshake Simulation: SYN, SYN-ACK &amp; ACK — Simulations">
+<meta name="twitter:description" content="Run an interactive TCP 3-Way Handshake simulation. Watch SYN, SYN-ACK, and ACK exchange, drop segments in transit, and see how sequence numbers and states transition.">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "TCP 3-Way Handshake Simulation", "description": "Run an interactive TCP 3-way handshake simulation. Watch SYN, SYN-ACK, and ACK exchange, drop segments in transit, and see how sequence numbers and states transition.", "author": {"@type": "Organization", "name": "Simulations"}, "datePublished": "2026-11-21", "url": "https://simulations.pages.dev/topics/tcp-handshake"}</script>
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/pages/tcp-handshake.css">
+</head>
+<body>
+  <div id="header-placeholder"></div>
+<main id="main">
+<div class="container">
+<div class="page-head"><h1>TCP 3-Way Handshake Simulation</h1><p class="lead">Before exchanging application bytes, TCP establishes a reliable connection using a three-step handshake: SYN, SYN-ACK, and ACK. Both sides agree on initial sequence numbers and verify bidirectional reachability.</p></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="sim" id="sim" aria-labelledby="sim-title">
+  <h2 id="sim-title">Interactive simulation</h2>
+  <dl class="readouts">
+    <div><dt>Client state</dt><dd id="ro-cstate">CLOSED</dd></div>
+    <div><dt>Server state</dt><dd id="ro-sstate">LISTEN</dd></div>
+    <div><dt>Client ISN (x)</dt><dd id="ro-cisn">100</dd></div>
+    <div><dt>Server ISN (y)</dt><dd id="ro-sisn">500</dd></div>
+    <div><dt>Timer</dt><dd id="ro-timer">idle</dd></div>
+    <div><dt>Speed</dt><dd id="ro-speed">1x</dd></div>
+  </dl>
+  <div class="controls" role="group" aria-label="Simulation controls">
+    <button class="btn btn-primary" type="button" id="b-send">Send</button>
+    <button class="btn" type="button" id="b-pause">Pause</button>
+    <button class="btn" type="button" id="b-resume">Resume</button>
+    <button class="btn" type="button" id="b-step">Step</button>
+    <button class="btn" type="button" id="b-slower">Slower</button>
+    <button class="btn" type="button" id="b-faster">Faster</button>
+    <button class="btn btn-danger" type="button" id="b-kill">Kill Selected</button>
+    <button class="btn" type="button" id="b-reset">Reset</button>
+  </div>
+  <div class="board">
+    <div class="endpoints">
+      <div class="endpoint" id="ep-client">
+        <svg class="ep-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+          <path d="M8 20h8"></path>
+          <path d="M12 16v4"></path>
+        </svg>
+        <span class="ep-name">Client</span>
+        <span class="ep-state" id="badge-client">CLOSED</span>
+      </div>
+      <div class="endpoint" id="ep-server">
+        <svg class="ep-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="4" y="3" width="16" height="7" rx="1.5"></rect>
+          <rect x="4" y="14" width="16" height="7" rx="1.5"></rect>
+          <circle cx="8" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+          <circle cx="8" cy="17.5" r="1" fill="currentColor" stroke="none"></circle>
+          <path d="M15 6.5h2"></path>
+          <path d="M15 17.5h2"></path>
+        </svg>
+        <span class="ep-name">Server</span>
+        <span class="ep-state" id="badge-server">LISTEN</span>
+      </div>
+    </div>
+    <div class="channel" id="channel" aria-label="Network channel: client is on the left, server is on the right"></div>
+    <div class="stage-bar" id="stage-bar">Step 0 of 3: Ready to initiate SYN</div>
+  </div>
+  <h3>Legend</h3>
+  <ul class="legend">
+    <li><span class="sw syn"></span>SYN segment (Client &rarr; Server)</li>
+    <li><span class="sw synack"></span>SYN-ACK segment (Server &rarr; Client)</li>
+    <li><span class="sw ack"></span>ACK segment (Client &rarr; Server)</li>
+    <li><span class="sw selected"></span>Selected in transit (press Kill Selected)</li>
+    <li><span class="sw lost"></span>Destroyed in transit</li>
+    <li><span class="sw est"></span>ESTABLISHED state</li>
+  </ul>
+  <h3 id="log-title">Event log</h3>
+  <ul class="log" id="event-log" role="log" aria-live="polite" aria-labelledby="log-title"></ul>
+</section>
+<section class="fade-in prose"><h2>How to use this simulation</h2><ol><li>Press <strong>Send</strong> once to send the initial <strong>SYN</strong> (<code>seq=x</code>) from Client to Server. The client enters <code>SYN-SENT</code>.</li><li>Press <strong>Send</strong> again once the server receives the <strong>SYN</strong> to send <strong>SYN-ACK</strong> (<code>seq=y, ack=x+1</code>), or let the simulation run and watch each stage unfold.</li><li>Click any in-flight segment to <strong>select</strong> it, then press <strong>Kill Selected</strong> to simulate packet loss and watch the retransmission timer fire.</li><li>Use <strong>Step</strong> to jump to the next event, <strong>Slower</strong> (down to 0.25x) and <strong>Faster</strong> (up to 4x) to adjust speed, and <strong>Reset</strong> to generate new initial sequence numbers.</li></ol></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<div class="prose steps">
+<section class="fade-in"><h2>1. Step 1: Client sends SYN (seq = x)</h2><p>A TCP connection starts when the active opener (typically the client) sends a segment with the <code>SYN</code> (Synchronize) control flag set and picks a random 32-bit Initial Sequence Number, denoted here as <code>x</code>. The client moves from <code>CLOSED</code> to <code>SYN-SENT</code> and starts a retransmission timer.</p></section>
+<section class="fade-in"><h2>2. Step 2: Server replies with SYN-ACK (seq = y, ack = x + 1)</h2><p>When a listening server receives the <code>SYN</code>, it allocates socket resources, chooses its own Initial Sequence Number <code>y</code>, moves to <code>SYN-RCVD</code>, and transmits a <code>SYN-ACK</code> segment. Setting <code>ack = x + 1</code> confirms receipt of the client's <code>SYN</code> (which consumes one sequence number) and tells the client what byte sequence the server expects next.</p></section>
+<section class="fade-in"><h2>3. Step 3: Client sends final ACK (seq = x + 1, ack = y + 1)</h2><p>When the client receives <code>SYN-ACK</code>, it verifies that <code>ack</code> equals <code>x + 1</code>, transitions to <code>ESTABLISHED</code>, and sends back an <code>ACK</code> with <code>ack = y + 1</code>. Once the server receives that <code>ACK</code>, it also transitions to <code>ESTABLISHED</code>. At this point, full-duplex data transfer can begin in both directions.</p></section>
+<section class="fade-in"><h2>4. Why three steps instead of two?</h2><p>A two-way handshake is not enough because both peers must establish and confirm their own starting sequence numbers independently. In addition, a delayed or duplicate <code>SYN</code> from an old connection could trick a server into opening a stale connection if the client never confirms the server's <code>SYN-ACK</code>.</p></section>
+<section class="fade-in"><h2>5. Retransmissions and SYN flood risks</h2><p>If a <code>SYN</code> or <code>SYN-ACK</code> is lost in transit, the sender's retransmission timer expires and resends the segment. Because the server holds half-open state in <code>SYN-RCVD</code> while waiting for the final <code>ACK</code>, high volumes of unanswered <code>SYN</code> packets can exhaust connection queues—a classic denial-of-service pattern known as a SYN flood.</p></section>
+</div>
+<section class="fade-in"><h2>Handshake message breakdown</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col">Step</th><th scope="col">Direction</th><th scope="col">Flags</th><th scope="col">Sequence &amp; Ack</th><th scope="col">Purpose</th></tr></thead><tbody>
+<tr><th scope="row">1</th><td>Client &rarr; Server</td><td><code>SYN</code></td><td><code>SEQ = x</code></td><td>Request connection and advertise client ISN <code>x</code>.</td></tr>
+<tr><th scope="row">2</th><td>Server &rarr; Client</td><td><code>SYN, ACK</code></td><td><code>SEQ = y</code>, <code>ACK = x + 1</code></td><td>Accept request, advertise server ISN <code>y</code>, and confirm <code>x</code>.</td></tr>
+<tr><th scope="row">3</th><td>Client &rarr; Server</td><td><code>ACK</code></td><td><code>SEQ = x + 1</code>, <code>ACK = y + 1</code></td><td>Confirm server ISN <code>y</code>; complete connection setup.</td></tr>
+</tbody></table></div></section>
+<section class="fade-in prose"><h2>Key takeaways</h2><ul><li>TCP uses a 3-way handshake (<code>SYN</code>, <code>SYN-ACK</code>, <code>ACK</code>) to synchronize sequence numbers for both directions.</li><li><code>SYN</code> and <code>FIN</code> flags each consume one sequence number; pure <code>ACK</code> segments do not.</li><li>The client enters <code>ESTABLISHED</code> as soon as it sends the third segment (<code>ACK</code>), while the server enters <code>ESTABLISHED</code> when it receives that <code>ACK</code>.</li><li>Losing any segment in flight triggers a timeout and retransmission rather than corrupting connection state.</li></ul></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="fade-in"><h2>Related topics</h2><div class="grid">
+<a class="card" href="/topics/goback-n"><h3>Go-Back-N</h3><p>Sliding window ARQ with cumulative ACKs.</p></a>
+<a class="card" href="/topics/selective-repeat"><h3>Selective Repeat</h3><p>Sliding window ARQ with individual ACKs and buffering.</p></a>
+<div class="card"><h3>TCP Teardown</h3><p>Graceful connection close with FIN and FIN-ACK.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>Stop-and-Wait</h3><p>The simplest ARQ: one packet at a time.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>Sliding Window</h3><p>Flow control and windowing fundamentals.</p><span class="badge">Coming soon</span></div>
+</div></section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">Simulations</p>
+    <p>Learn protocols and CS concepts, step by step.</p>
+    <ul>
+      <li><a href="/topics/goback-n">Go-Back-N</a></li>
+      <li><a href="/topics/selective-repeat">Selective Repeat</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+    <p>&copy; <span id="year">2026</span> Simulations. All rights reserved.</p>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script src="/js/pages/tcp-handshake.js" defer></script>
+</body>
+</html>

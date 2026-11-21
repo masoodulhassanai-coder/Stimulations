@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Binary Sort (Binary Insertion Sort) Simulation — Simulations</title>
+  <meta name="description" content="See how Binary Sort uses binary search to find insertion positions faster while shifting elements in place.">
+  <link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/topics/binary-sort">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Simulations">
+  <meta property="og:title" content="Binary Sort (Binary Insertion Sort) Simulation — Simulations">
+  <meta property="og:description" content="See how Binary Sort uses binary search to find insertion positions faster while shifting elements in place.">
+  <meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/topics/binary-sort">
+  <meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Binary Sort (Binary Insertion Sort) Simulation — Simulations">
+  <meta name="twitter:description" content="See how Binary Sort uses binary search to find insertion positions faster while shifting elements in place.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Binary Sort (Binary Insertion Sort) Simulation",
+    "description": "See how Binary Sort uses binary search to find insertion positions faster while shifting elements in place.",
+    "learningResourceType": "Interactive Simulation",
+    "provider": { "@type": "Organization", "name": "Simulations" },
+    "url": "https://stimulaions.masoodulhassanai.workers.dev/topics/binary-sort"
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/pages/binary-sort.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+<main id="main">
+<div class="container">
+<div class="page-head"><h1>Binary Sort Simulation</h1><p class="lead">Binary Sort (Binary Insertion Sort) uses binary search on the sorted left subarray to locate where each key belongs in O(log n) comparisons, then shifts elements right to insert it.</p></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="sim" id="sim" aria-labelledby="sim-title">
+  <h2 id="sim-title">Interactive simulation</h2>
+  <dl class="readouts">
+    <div><dt>Key</dt><dd id="ro-key">-</dd></div>
+    <div><dt>Search [L..H]</dt><dd id="ro-bounds">-</dd></div>
+    <div><dt>Mid</dt><dd id="ro-mid">-</dd></div>
+    <div><dt>Sorted prefix</dt><dd id="ro-prefix">1 / 10</dd></div>
+    <div><dt>Speed</dt><dd id="ro-speed">1x</dd></div>
+  </dl>
+  <div class="controls" role="group" aria-label="Simulation controls">
+    <button class="btn btn-primary" type="button" id="b-send">Insert Next</button>
+    <button class="btn" type="button" id="b-pause">Pause</button>
+    <button class="btn" type="button" id="b-resume">Resume</button>
+    <button class="btn" type="button" id="b-step">Step</button>
+    <button class="btn" type="button" id="b-slower">Slower</button>
+    <button class="btn" type="button" id="b-faster">Faster</button>
+    <button class="btn" type="button" id="b-reset">Reset</button>
+  </div>
+  <div class="board">
+    <div class="bars-stage" id="bars-stage" aria-label="Animated bar chart for Binary Sort"></div>
+    <div class="status-line" id="status-line">Ready: press Insert Next or Resume to start</div>
+  </div>
+  <h3>Legend</h3>
+  <ul class="legend">
+    <li><span class="sw prefix"></span>Sorted prefix</li>
+    <li><span class="sw bound"></span>Binary search range [low..high]</li>
+    <li><span class="sw mid"></span>Mid probe / active key (lifted)</li>
+    <li><span class="sw shift"></span>Shifting right (lifted)</li>
+  </ul>
+  <h3 id="log-title">Event log</h3>
+  <ul class="log" id="event-log" role="log" aria-live="polite" aria-labelledby="log-title"></ul>
+</section>
+<section class="fade-in prose"><h2>How to use this simulation</h2><ol><li>Press <strong>Insert Next</strong> once to advance through one binary probe, shift, or insertion event, or press <strong>Resume</strong> to animate continuously.</li><li>Watch selected/active bars lift upward and slide across slots as binary search narrows the range and elements shift right.</li><li>Use <strong>Step</strong>, <strong>Slower</strong> (down to 0.25x), <strong>Faster</strong> (up to 4x), and <strong>Reset</strong> to test new values.</li></ol></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<div class="prose steps">
+<section class="fade-in"><h2>1. Binary search on the sorted prefix</h2><p>Because elements <code>0 .. i - 1</code> are already sorted, Binary Sort halves the search interval <code>[low, high]</code> using <code>mid = Math.floor((low + high) / 2)</code> to find the exact insertion index.</p></section>
+<section class="fade-in"><h2>2. Shifting &amp; inserting the key</h2><p>Once <code>low</code> pinpoints the target slot, elements from <code>i - 1</code> down to <code>low</code> shift one index right so <code>key</code> is written into <code>arr[low]</code>.</p></section>
+<section class="fade-in"><h2>3. Comparisons vs. shifts</h2><p>Comparisons drop to <code>O(n log n)</code> overall, but shifting elements still takes up to <code>O(n²)</code> shifts in the worst case and <code>O(1)</code> auxiliary space.</p></section>
+</div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="fade-in"><h2>Related topics</h2><div class="grid">
+<a class="card" href="/topics/insertion-sort"><h3>Insertion Sort</h3><p>Linear scan and shift into a sorted prefix.</p></a>
+<a class="card" href="/topics/selection-sort"><h3>Selection Sort</h3><p>Select the minimum element for each slot.</p></a>
+<a class="card" href="/topics/bubble-sort"><h3>Bubble Sort</h3><p>Repeatedly swap adjacent out-of-order elements.</p></a>
+</div></section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">Simulations</p>
+    <p>Learn protocols and CS concepts, step by step.</p>
+    <ul>
+      <li><a href="/topics/goback-n">Go-Back-N</a></li>
+      <li><a href="/topics/selective-repeat">Selective Repeat</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+    <p>&copy; <span id="year">2026</span> Simulations. All rights reserved.</p>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script src="/js/pages/binary-sort.js" defer></script>
+</body>
+</html>

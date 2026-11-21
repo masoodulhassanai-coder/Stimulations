@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>CPU Scheduling Simulation &amp; Timeline — Simulations</title>
+  <meta name="description" content="Explore CPU scheduling algorithms, ready queues, execution timelines, turnaround time, and waiting time step by step.">
+  <link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/topics/cpu-scheduling">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Simulations">
+  <meta property="og:title" content="CPU Scheduling Simulation &amp; Timeline — Simulations">
+  <meta property="og:description" content="Explore CPU scheduling algorithms, ready queues, execution timelines, turnaround time, and waiting time step by step.">
+  <meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/topics/cpu-scheduling">
+  <meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="CPU Scheduling Simulation &amp; Timeline — Simulations">
+  <meta name="twitter:description" content="Explore CPU scheduling algorithms, ready queues, execution timelines, turnaround time, and waiting time step by step.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "CPU Scheduling Simulation & Timeline",
+    "description": "Explore CPU scheduling algorithms, ready queues, execution timelines, turnaround time, and waiting time step by step.",
+    "learningResourceType": "Interactive Simulation",
+    "provider": { "@type": "Organization", "name": "Simulations" },
+    "url": "https://stimulaions.masoodulhassanai.workers.dev/topics/cpu-scheduling"
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/pages/cpu-scheduling.css">
+</head>
+<body>
+<div id="header-placeholder"></div>
+<main id="main">
+<div class="container">
+<div class="page-head"><h1>CPU Scheduling Simulation</h1><p class="lead">Watch how processes enter the ready queue, get dispatched onto the CPU core, and finish under FCFS, SJF, SRTF, and Round Robin.</p></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="sim" id="sim" aria-labelledby="sim-title">
+  <h2 id="sim-title">Interactive simulation</h2>
+  <div class="algo-bar" role="group" aria-label="Scheduling algorithm and parameters">
+    <label class="field">
+      <span>Algorithm</span>
+      <select id="sel-algo">
+        <option value="fcfs">FCFS</option>
+        <option value="sjf">SJF</option>
+        <option value="srtf">SRTF</option>
+        <option value="rr">Round Robin</option>
+      </select>
+    </label>
+    <label class="field" id="quantum-wrap">
+      <span>Quantum (q)</span>
+      <select id="sel-quantum">
+        <option value="1">1</option>
+        <option value="2" selected>2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </label>
+  </div>
+  <dl class="readouts">
+    <div><dt>CPU</dt><dd id="ro-cpu">IDLE</dd></div>
+    <div><dt>Ready queue</dt><dd id="ro-rq">0</dd></div>
+    <div><dt>Completed</dt><dd id="ro-done">0 / 6</dd></div>
+    <div><dt>Avg WT</dt><dd id="ro-awt">0.0</dd></div>
+    <div><dt>Avg TAT</dt><dd id="ro-atat">0.0</dd></div>
+    <div><dt>Speed</dt><dd id="ro-speed">1x</dd></div>
+  </dl>
+  <div class="controls" role="group" aria-label="Simulation controls">
+    <button class="btn btn-primary" type="button" id="b-send">Dispatch</button>
+    <button class="btn" type="button" id="b-pause">Pause</button>
+    <button class="btn" type="button" id="b-resume">Resume</button>
+    <button class="btn" type="button" id="b-step">Step</button>
+    <button class="btn" type="button" id="b-slower">Slower</button>
+    <button class="btn" type="button" id="b-faster">Faster</button>
+    <button class="btn btn-danger" type="button" id="b-kill">Terminate</button>
+    <button class="btn" type="button" id="b-reset">Reset</button>
+  </div>
+
+  <div class="board">
+    <div class="pipeline">
+      <div class="zone zone-ready">
+        <div class="zone-head">
+          <svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="5" rx="1.5"></rect>
+            <rect x="3" y="11" width="18" height="5" rx="1.5"></rect>
+            <path d="M3 20h18"></path>
+          </svg>
+          <span>Ready Queue</span>
+        </div>
+        <div class="zone-body" id="zone-ready"></div>
+      </div>
+
+      <div class="arrow-bridge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="m13 6 6 6-6 6"></path>
+        </svg>
+      </div>
+
+      <div class="zone zone-cpu" id="zone-cpu">
+        <div class="zone-head">
+          <svg class="ico cpu-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+            <rect x="9.5" y="9.5" width="5" height="5" rx="0.8"></rect>
+            <path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"></path>
+          </svg>
+          <span>CPU Core</span>
+        </div>
+        <div class="zone-body cpu-slot" id="zone-cpu-slot">
+          <span class="idle-tag">IDLE</span>
+        </div>
+        <div class="meter" aria-hidden="true"><div class="meter-fill" id="cpu-meter"></div></div>
+      </div>
+
+      <div class="arrow-bridge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="m13 6 6 6-6 6"></path>
+        </svg>
+      </div>
+
+      <div class="zone zone-done">
+        <div class="zone-head">
+          <svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="m8.5 12.5 2.5 2.5 4.5-5"></path>
+          </svg>
+          <span>Done / Terminated</span>
+        </div>
+        <div class="zone-body" id="zone-done"></div>
+      </div>
+    </div>
+
+    <div class="stage-strip">
+      <div class="stage-title">
+        <svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M12 7v5l3 2"></path>
+        </svg>
+        <span>All Processes (click to select, then Terminate)</span>
+      </div>
+      <div class="proc-dock" id="proc-dock"></div>
+    </div>
+
+    <div class="stage-strip">
+      <div class="stage-title">
+        <svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 6h18"></path>
+          <path d="M3 12h14"></path>
+          <path d="M3 18h10"></path>
+        </svg>
+        <span>Animated Gantt Timeline</span>
+      </div>
+      <div class="gantt-track" id="gantt-track" aria-label="Animated Gantt timeline"></div>
+    </div>
+  </div>
+
+  <h3>Legend</h3>
+  <ul class="legend">
+    <li><span class="sw waiting"></span>Waiting to arrive</li>
+    <li><span class="sw ready"></span>In Ready Queue</li>
+    <li><span class="sw running"></span>Running on CPU</li>
+    <li><span class="sw finished"></span>Completed</li>
+    <li><span class="sw selected"></span>Selected (click Terminate)</li>
+    <li><span class="sw killed"></span>Terminated</li>
+  </ul>
+  <h3 id="log-title">Event log</h3>
+  <ul class="log" id="event-log" role="log" aria-live="polite" aria-labelledby="log-title"></ul>
+</section>
+<section class="fade-in prose"><h2>How to use this simulation</h2><ol><li>Pick <strong>FCFS</strong>, <strong>SJF</strong>, <strong>SRTF</strong>, or <strong>Round Robin</strong> (and quantum <code>q</code>), then press <strong>Dispatch</strong> or <strong>Resume</strong> to watch processes move into the <strong>Ready Queue</strong> and onto the <strong>CPU Core</strong>.</li><li>Click any active process token to <strong>select</strong> it, then press <strong>Terminate</strong> to stop that process.</li><li>Use <strong>Step</strong> to advance one event, <strong>Slower</strong> (down to 0.25x) and <strong>Faster</strong> (up to 4x) for animation speed, and <strong>Reset</strong> to restart.</li></ol></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<div class="prose steps">
+<section class="fade-in"><h2>1. Ready Queue to CPU Core</h2><p>Processes enter the <strong>Ready Queue</strong> as their arrival time is reached. The scheduler picks the next process according to the active policy—arrival order in <strong>FCFS</strong>, shortest burst in <strong>SJF</strong>, shortest remaining time in <strong>SRTF</strong>, or rotating slices in <strong>Round Robin</strong>.</p></section>
+<section class="fade-in"><h2>2. Preemption &amp; Time Quantum</h2><p>In <strong>SRTF</strong>, a newly arrived job with less remaining time preempts the current process. In <strong>Round Robin</strong>, a process runs until it finishes or uses up its quantum <code>q</code>, then returns to the ready queue.</p></section>
+<section class="fade-in"><h2>3. Waiting Time (WT) &amp; Turnaround Time (TAT)</h2><p>Each process token displays its remaining burst <code>RT</code> and, once finished, its waiting time <code>WT</code> and turnaround time <code>TAT</code>.</p></section>
+</div>
+<section class="fade-in"><h2>Scheduling algorithm comparison</h2>
+<div class="table-wrap"><table><thead><tr><th scope="col">Algorithm</th><th scope="col">Preemptive?</th><th scope="col">Order</th><th scope="col">Strength</th><th scope="col">Trade-off</th></tr></thead><tbody>
+<tr><th scope="row">FCFS</th><td>No</td><td>Arrival order</td><td>Simple &amp; predictable</td><td>Convoy effect</td></tr>
+<tr><th scope="row">SJF</th><td>No</td><td>Shortest burst</td><td>Low average wait</td><td>Starvation of long jobs</td></tr>
+<tr><th scope="row">SRTF</th><td>Yes</td><td>Shortest remaining</td><td>Minimal average wait</td><td>Frequent preemption</td></tr>
+<tr><th scope="row">Round Robin</th><td>Yes</td><td>FIFO + quantum <code>q</code></td><td>Fair &amp; responsive</td><td>Context switch overhead</td></tr>
+</tbody></table></div></section>
+<section class="fade-in prose"><h2>Key takeaways</h2><ul><li><code>TAT = Completion - Arrival</code> and <code>WT = TAT - Burst</code>.</li><li>Watch the animated <strong>CPU Core</strong> and <strong>Gantt Timeline</strong> to see how preemption and quantum slices change execution order.</li></ul></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="fade-in"><h2>Related topics</h2><div class="grid">
+<a class="card" href="/topics/goback-n"><h3>Go-Back-N</h3><p>Sliding window ARQ with cumulative ACKs.</p></a>
+<a class="card" href="/topics/selective-repeat"><h3>Selective Repeat</h3><p>Sliding window ARQ with individual ACKs and buffering.</p></a>
+<div class="card"><h3>Deadlock &amp; Banker's Algorithm</h3><p>Resource allocation and safe-state checks.</p><span class="badge">Coming soon</span></div>
+<div class="card"><h3>Paging &amp; Virtual Memory</h3><p>Address translation and page replacement.</p><span class="badge">Coming soon</span></div>
+</div></section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">Simulations</p>
+    <p>Learn protocols and CS concepts, step by step.</p>
+    <ul>
+      <li><a href="/topics/goback-n">Go-Back-N</a></li>
+      <li><a href="/topics/selective-repeat">Selective Repeat</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+    <p>&copy; <span id="year">2026</span> Simulations. All rights reserved.</p>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script src="/js/pages/cpu-scheduling.js" defer></script>
+</body>
+</html>

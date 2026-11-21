@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Bubble Sort Simulation &amp; Step-by-Step Guide — Simulations</title>
+  <meta name="description" content="Step through Bubble Sort comparisons, swaps, bar lift animations, and pass-by-pass behavior with adjustable speed.">
+  <link rel="canonical" href="https://stimulaions.masoodulhassanai.workers.dev/topics/bubble-sort">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Simulations">
+  <meta property="og:title" content="Bubble Sort Simulation &amp; Step-by-Step Guide — Simulations">
+  <meta property="og:description" content="Step through Bubble Sort comparisons, swaps, bar lift animations, and pass-by-pass behavior with adjustable speed.">
+  <meta property="og:url" content="https://stimulaions.masoodulhassanai.workers.dev/topics/bubble-sort">
+  <meta property="og:image" content="https://stimulaions.masoodulhassanai.workers.dev/assets/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bubble Sort Simulation &amp; Step-by-Step Guide — Simulations">
+  <meta name="twitter:description" content="Step through Bubble Sort comparisons, swaps, bar lift animations, and pass-by-pass behavior with adjustable speed.">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LearningResource",
+    "name": "Bubble Sort Simulation & Step-by-Step Guide",
+    "description": "Step through Bubble Sort comparisons, swaps, bar lift animations, and pass-by-pass behavior with adjustable speed.",
+    "learningResourceType": "Interactive Simulation",
+    "provider": { "@type": "Organization", "name": "Simulations" },
+    "url": "https://stimulaions.masoodulhassanai.workers.dev/topics/bubble-sort"
+  }
+  </script>
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/pages/bubble-sort.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+<main id="main">
+<div class="container">
+<div class="page-head"><h1>Bubble Sort Simulation</h1><p class="lead">Bubble Sort repeatedly compares adjacent elements and swaps them if they are in the wrong order, pushing the largest unsorted value to the end of each pass.</p></div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="sim" id="sim" aria-labelledby="sim-title">
+  <h2 id="sim-title">Interactive simulation</h2>
+  <dl class="readouts">
+    <div><dt>Pass</dt><dd id="ro-pass">1</dd></div>
+    <div><dt>Comparing</dt><dd id="ro-pair">-</dd></div>
+    <div><dt>Swaps</dt><dd id="ro-swaps">0</dd></div>
+    <div><dt>Sorted tail</dt><dd id="ro-sorted">0</dd></div>
+    <div><dt>Speed</dt><dd id="ro-speed">1x</dd></div>
+  </dl>
+  <div class="controls" role="group" aria-label="Simulation controls">
+    <button class="btn btn-primary" type="button" id="b-send">Compare Next</button>
+    <button class="btn" type="button" id="b-pause">Pause</button>
+    <button class="btn" type="button" id="b-resume">Resume</button>
+    <button class="btn" type="button" id="b-step">Step</button>
+    <button class="btn" type="button" id="b-slower">Slower</button>
+    <button class="btn" type="button" id="b-faster">Faster</button>
+    <button class="btn" type="button" id="b-reset">Reset</button>
+  </div>
+  <div class="board">
+    <div class="bars-stage" id="bars-stage" aria-label="Animated bar chart for Bubble Sort"></div>
+    <div class="status-line" id="status-line">Ready: press Compare Next or Resume to start</div>
+  </div>
+  <h3>Legend</h3>
+  <ul class="legend">
+    <li><span class="sw unsort"></span>Unsorted element</li>
+    <li><span class="sw cmp"></span>Comparing pair</li>
+    <li><span class="sw swap"></span>Swapping values</li>
+    <li><span class="sw done"></span>Sorted in final position</li>
+  </ul>
+  <h3 id="log-title">Event log</h3>
+  <ul class="log" id="event-log" role="log" aria-live="polite" aria-labelledby="log-title"></ul>
+</section>
+<section class="fade-in prose"><h2>How to use this simulation</h2><ol><li>Press <strong>Compare Next</strong> once to step through one adjacent comparison/swap at a time, or press <strong>Resume</strong> to animate continuously.</li><li>Watch how the highlighted pair is compared and swapped when left &gt; right, locking each largest item at the right end.</li><li>Use <strong>Step</strong> to jump to the next event, <strong>Slower</strong> (down to 0.25x) and <strong>Faster</strong> (up to 4x) to change speed, and <strong>Reset</strong> to generate a new array.</li></ol></section>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<div class="prose steps">
+<section class="fade-in"><h2>1. Adjacent comparisons</h2><p>In pass <code>k</code>, Bubble Sort steps from index <code>0</code> up to <code>n - k - 1</code>, comparing <code>arr[j]</code> with <code>arr[j + 1]</code>.</p></section>
+<section class="fade-in"><h2>2. Swapping out-of-order pairs</h2><p>Whenever <code>arr[j] &gt; arr[j + 1]</code>, the two elements swap places so heavier values drift rightward toward their sorted spots.</p></section>
+<section class="fade-in"><h2>3. Time &amp; space complexity</h2><p>Worst-case and average time complexity are <code>O(n²)</code>, with <code>O(1)</code> auxiliary space. With an early-exit flag when no swaps occur in a pass, best-case time on an already-sorted array is <code>O(n)</code>.</p></section>
+</div>
+<div class="ad-slot" aria-label="Advertisement">
+  <!-- REPLACE: AdSense banner code here -->
+</div>
+<section class="fade-in"><h2>Related topics</h2><div class="grid">
+<a class="card" href="/topics/insertion-sort"><h3>Insertion Sort</h3><p>Build a sorted prefix by shifting elements into place.</p></a>
+<a class="card" href="/topics/selection-sort"><h3>Selection Sort</h3><p>Find the minimum element and swap it to the front.</p></a>
+<a class="card" href="/topics/goback-n"><h3>Go-Back-N</h3><p>Sliding window ARQ protocol simulation.</p></a>
+</div></section>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="container">
+    <p class="footer-brand">Simulations</p>
+    <p>Learn protocols and CS concepts, step by step.</p>
+    <ul>
+      <li><a href="/topics/goback-n">Go-Back-N</a></li>
+      <li><a href="/topics/selective-repeat">Selective Repeat</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/terms">Terms</a></li>
+    </ul>
+    <p>&copy; <span id="year">2026</span> Simulations. All rights reserved.</p>
+  </div>
+</footer>
+<script src="/js/main.js" defer></script>
+<script src="/js/pages/bubble-sort.js" defer></script>
+</body>
+</html>
